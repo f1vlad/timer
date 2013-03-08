@@ -1,36 +1,35 @@
-var test_begin_trigger = 'convert_lead',
-    test_begin_time,
-    test_end_trigger = '#lead-convert-success',
-    test_end_time,
+var beginTriger = 'convert_lead',
+    beginTime,
+    endTrigger = '#lead-convert-success',
+    endTime,
     clicks = 0;
 
 	$('#sidecar').bind('click', '*', function(e){
-		($(e)[0]['target']['className'] === test_begin_trigger) ? test_start() : false;
-		($(test_end_trigger).length === 1) ? test_end() : false;
+		($(e)[0]['target']['className'] === beginTriger) ? start() : false;
+		($(endTrigger).length === 1) ? end() : false;
 		var status = ($('#sugarcrm').find('#lead-convert-success').length===1) ? true : false;
 		clicks += 1;
 	});
 
-
-    var test_start = function () {
-        test_begin_time = new Date().getTime();
-        begin_test_alert();
+    var start = function () {
+        beginTime = new Date().getTime();
+        beginTestAlert();
     };
 
-    var test_end = function () {
-        test_end_time = new Date().getTime();
-        show_results();
+    var end = function () {
+        endTime = new Date().getTime();
+        showResults();
     };
 
-    var lap_time = function () {
-    	return (test_end_time - test_begin_time) / 1000;
+    var lapTime = function () {
+    	return (endTime - beginTime ) / 1000;
     	
     };
 
-    var begin_test_alert = function () {
+    var beginTestAlert = function () {
 		throwMessage('<strong>Note!</strong> You entered a test zone', 'success', true);
     };
 
-    var show_results = function () {
-        throwMessage('<strong id="lead-convert-success">Test completed!</strong> It took you ' + lap_time() + ' seconds and ' + clicks + ' clicks to complete this task', 'success', false);
+    var showResults = function () {
+        throwMessage('<strong id="lead-convert-success">Test completed!</strong> It took you ' + lapTime() + ' seconds and ' + clicks + ' clicks to complete this task', 'success', false);
     };
