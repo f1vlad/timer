@@ -6,16 +6,16 @@
         endTime: 0,
         clicks: -2,
         start: function() {
-            beginTime = new Date().getTime();
+            this.beginTime = new Date().getTime();
             this.beginTestAlert();
         },
         end: function() {
-            endTime = new Date().getTime();
+            this.endTime = new Date().getTime();
             $('#lead-convert-success').attr('id', '');
             this.showResults();
         },
         lapTime: function() {
-            return Math.round( ((endTime - beginTime ) / 1000)*100 )/100;
+            return Math.round( ((this.endTime - this.beginTime ) / 1000)*100 )/100;
         },
         beginTestAlert: function() {throwMessage('<strong>Note!</strong> You entered a test zone', 'success', true);},
         showResults: function() {throwMessage('<strong>Test completed!</strong> It took you ' + this.lapTime() + ' seconds and ' + this.clicks + ' clicks to complete this task', 'success', false);}
