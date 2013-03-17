@@ -18,6 +18,8 @@
             this.endTime = new Date().getTime();
             $('#lead-convert-success').attr('id', '');
             this.showResults();
+            this.clicks = 0;
+            this.trace = {};
         },
         lapTime: function() {
             return  Math.round( ((this.trace[this.clicks].timestamp - this.trace[1].timestamp ) / 1000)*100 )/100;
