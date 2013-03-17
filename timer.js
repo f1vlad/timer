@@ -2,13 +2,13 @@
     var lib = {
         testAuto: false, // auto test will start automatically based on start|step html selector trigger
         testInProgress: false,
-        beginTriger: 'convert_lead', // make optional
         beginTime: 0,
-        endTrigger: '#lead-convert-success',  // make optional
         endTime: 0,
         clicks: 0,
+        beginTriger: 'convert_lead', // required for auto-start test
+        endTrigger: '#lead-convert-success',  // required for auto-start test
         trace: {},
-        remoteControll: '<div class="uitest-remote-control" style="position: absolute; width:auto; height:28px; background: #ccc; border:1px solid #bbb; border-radius: 3px; padding: 6px 10px; right: 0; top:50%; box-shadow:inset 0px -19px 7px #aaa"><a href="#" style="line-height:27px; cursor:ew-resize">UI<strong class="toggle hide">TEST</strong></a> <span class="toggle hide">Contact info: <input type="text" name="contact" placeholder="Name, email"><input type="button" class="btn start" value="start"><input type="button" disabled="disabled" class="btn stop" value="stop"></span></div>',
+        remoteControll: '<div class="uitest-remote-control" style="position: absolute; width:auto; height:28px; background: #ccc; border:1px solid #bbb; border-radius: 3px; padding: 6px 10px; right: 0; top:50%; box-shadow:inset 0px -19px 7px #aaa"><a href="#" style="line-height:27px; cursor:ew-resize">UI<strong class="toggle hide">TEST</strong></a> <span class="toggle hide">Contact info: <input type="text" name="contact" placeholder="Name, email"><input type="button" class="btn start" value="start"><input type="button" disabled="disabled" class="btn stop" value="stop"><input type="button" class="btn auto-manual-toggle manual" value="auto off"></span></div>',
         start: function() {
             this.beginTime = new Date().getTime();
             this.beginTestAlert();
@@ -27,8 +27,6 @@
     };
     window.UITEST = lib;
     $('body').append(window.UITEST.remoteControll);
-
-
 
     var ui = window.UITEST;
 
@@ -68,17 +66,14 @@
         return false;
     });
 
-
-
-
-
-
-
-
-
-
-
-
-
+    $('.auto-manual-toggle').live('click', function(){
+        if($(this).hasClass('manual') === true) {
+            $(this).removeClass('manual').addClass('auto btn-primary').attr('value', 'auto on');
+            ui.testAuto = true;
+        } else if($(this).hasClass('auto') === true) {
+            $(this).removeClass('auto btn-primary').addClass('manual').attr('value', 'auto off');
+            ui.testAuto = false;
+        }
+    });
 
 })();
