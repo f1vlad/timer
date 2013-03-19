@@ -25,7 +25,7 @@
             $('#lead-convert-success').attr('id', '');
             $('.uitest-remote-control input[type=text]').attr('value', '');
             this.showResults();
-            this.trace[0] = this.testSubject + ' — ' + this.testSubjectMachine;
+            this.trace[0] = this.testSubject + ' — ' + this.testSubjectMachine + ', ' + this.lapTime() + ' seconds, ' + this.clicks + ' clicks';
             this.finalReport = this.trace;
         },
         lapTime: function() {
