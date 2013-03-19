@@ -10,6 +10,8 @@
         trace: {},
         remoteControll: '<div class="uitest-remote-control" style="position: absolute; width:auto; height:28px; background: #ccc; border:1px solid #bbb; border-radius: 3px; padding: 6px 10px; right: 0; top:50%; box-shadow:inset 0px -19px 7px #aaa"><a href="#" style="line-height:27px; cursor:ew-resize">UI<strong class="toggle hide">TEST</strong></a> <span class="toggle hide">Contact info: <input type="text" name="contact" placeholder="Name, email"><input type="button" class="btn start" value="start"><input type="button" disabled="disabled" class="btn stop" value="stop"><input type="button" class="btn auto-manual-toggle manual" value="auto off"></span></div>',
         start: function() {
+            this.clicks = 0;
+            this.trace = {};
             this.beginTime = new Date().getTime();
             this.beginTestAlert();
             this.testInProgress = true;
@@ -18,8 +20,6 @@
             this.endTime = new Date().getTime();
             $('#lead-convert-success').attr('id', '');
             this.showResults();
-            this.clicks = 0;
-            this.trace = {};
         },
         lapTime: function() {
             return  Math.round( ((this.trace[this.clicks].timestamp - this.trace[1].timestamp ) / 1000)*100 )/100;
