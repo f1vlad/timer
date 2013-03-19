@@ -3,6 +3,7 @@
         testAuto: false, // auto test will start automatically based on start|step html selector trigger
         testInProgress: false,
         testSubject: '',
+        finalReport: '',
         beginTime: 0,
         endTime: 0,
         clicks: 0,
@@ -22,8 +23,10 @@
         end: function() {
             this.endTime = new Date().getTime();
             $('#lead-convert-success').attr('id', '');
-            this.showResults();
             $('.uitest-remote-control input[type=text]').attr('value', '');
+            this.showResults();
+            this.trace[0] = this.testSubject + ' — ' + this.testSubjectMachine;
+            this.finalReport = this.trace;
         },
         lapTime: function() {
             return  Math.round( ((this.trace[this.clicks].timestamp - this.trace[1].timestamp ) / 1000)*100 )/100;
