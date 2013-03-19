@@ -49,16 +49,16 @@
             ui.clicks += 1;
             ui.trace[ui.clicks] = {
                 'timestamp': new Date().getTime(),
-                'coordinates': 'false'
+                'coordinates': e.pageX + ',' + e.pageY
             };
         });
         $('.uitest-remote-control .btn:not(.disabled)').live('click', function(e){
             if($(this).hasClass('start') === true) {
                 ui.start();
-                $(this).attr('disabled','disabled').next().removeAttr('disabled');
+                $(this).attr('disabled','disabled').next().removeAttr('disabled').parent().find('.auto-manual-toggle').attr('disabled','disabled');
             } else if ($(this).hasClass('stop') === true) {
                 ui.end();
-                $(this).attr('disabled','disabled').prev().removeAttr('disabled');
+                $(this).attr('disabled','disabled').prev().removeAttr('disabled').parent().find('.auto-manual-toggle').removeAttr('disabled');
             }
         });
     }
@@ -71,9 +71,11 @@
     $('.auto-manual-toggle').live('click', function(){
         if($(this).hasClass('manual') === true) {
             $(this).removeClass('manual').addClass('auto btn-primary').attr('value', 'auto on');
+            $(this).parent().find('.start').attr('disabled','disabled');
             ui.testAuto = true;
         } else if($(this).hasClass('auto') === true) {
             $(this).removeClass('auto btn-primary').addClass('manual').attr('value', 'auto off');
+            $(this).parent().find('.start').removeAttr('disabled');
             ui.testAuto = false;
         }
     });
