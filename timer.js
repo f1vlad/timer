@@ -10,7 +10,7 @@
         beginTriger: 'convert_lead', // required for auto-start test
         endTrigger: '#lead-convert-success',  // required for auto-start test
         trace: {},
-        remoteControll: '<div class="uitest-remote-control" style="position: absolute; width:auto; height:28px; background: #ccc; border:1px solid #bbb; border-radius: 3px; padding: 6px 10px; right: 0; top:50%; box-shadow:inset 0px -19px 7px #aaa"><a href="#" style="line-height:27px; cursor:ew-resize">UI<strong class="toggle hide">TEST</strong></a> <span class="toggle hide">Contact info: <input type="text" name="test-subject" placeholder="Name, email"><input type="button" class="btn start" value="start"><input type="button" disabled="disabled" class="btn stop" value="stop"><input type="button" class="btn auto-manual-toggle manual" value="auto off"></span></div>',
+        remoteControll: '<div class="uitest-remote-control" style="width:400px;position:fixed;bottom:-190px;left:30%;background:white;border-radius:6px; border:2px solid blue; box-shadow: 0px 0px 14px #aaa;padding:1em"><div class="row-fluid"><div class="span3"><h1><a href="#"><span>&uarr;</span><span style="display:none">&darr;</span></a>UIsprint</h1></div><div class="span6"><input class="inherit-width " type="text" name="test-subject" value="" placeholder="Please enter your name and email"></div><div class="span3"></div></div><div class="row-fluid"><div class="span12"><em>TEST | TOUR TABS PLACEHOLDER</em></div></div><div class="row-fluid"><div class="span12"><ol><li>Test name 1 <input type="button" class="btn start" value="start"><input type="button" disabled="disabled" class="btn stop" value="stop"></li><li>Test name 2 <input type="button" class="btn start" value="start"><input type="button" disabled="disabled" class="btn stop" value="stop"></li></ol><hr>Total time: ______<br><a href="#">Take survey</a><input type="button" class="btn auto-manual-toggle manual pull-right" value="auto off"></div></div></div>',
         start: function() {
             this.clicks = 0;
             this.trace = {};
@@ -70,9 +70,10 @@
         });
     }
 
-    $('.uitest-remote-control > a').live('click', function(e){
-        $('.uitest-remote-control .toggle').toggleClass('hide');
-        return false;
+    $('.uitest-remote-control h1 > a').live('click', function(e){
+        $(this).find('span').toggle();
+        ($(this).closest('.uitest-remote-control').hasClass('visible')===true) ? $(this).closest('.uitest-remote-control').removeClass('visible').animate({'bottom':'-190px', 'opacity':'.75'},200) : $(this).closest('.uitest-remote-control').addClass('visible').animate({'bottom': '20px', 'opacity':'1'},200);
+        e.preventDefault();
     });
 
     $('.auto-manual-toggle').live('click', function(){
