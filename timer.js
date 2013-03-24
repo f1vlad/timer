@@ -9,11 +9,10 @@
         clicks: 0,
         beginTriger: 'convert_lead', // required for auto-start test
         endTrigger: '#lead-convert-success',  // required for auto-start test
-        trace: {},
+        trace: [],
         remoteControll: '<div class="uitest-remote-control" style="width:400px;position:fixed;bottom:-190px;left:30%;background:white;border-radius:6px; border:2px solid blue; box-shadow: 0px 0px 14px #aaa;padding:1em"><div class="row-fluid"><div class="span3"><h1><a href="#"><span>&uarr;</span><span style="display:none">&darr;</span></a>UIsprint</h1></div><div class="span6"><input class="inherit-width " type="text" name="test-subject" value="" placeholder="Please enter your name and email"></div><div class="span3"></div></div><div class="row-fluid"><div class="span12"><em>TEST | TOUR TABS PLACEHOLDER</em></div></div><div class="row-fluid"><div class="span12"><ol><li>Test name 1 <input type="button" class="btn start" value="start"><input type="button" disabled="disabled" class="btn stop" value="stop"></li><li>Test name 2 <input type="button" class="btn start" value="start"><input type="button" disabled="disabled" class="btn stop" value="stop"></li></ol><hr>Total time: ______<br><a href="#">Take survey</a><input type="button" class="btn auto-manual-toggle manual pull-right" value="auto off"></div></div></div>',
         start: function() {
             this.clicks = 0;
-            this.trace = {};
             this.beginTime = new Date().getTime();
             this.beginTestAlert();
             this.testSubject = $('.uitest-remote-control input[type=text]').val();
@@ -25,11 +24,11 @@
             $('#lead-convert-success').attr('id', '');
             $('.uitest-remote-control input[type=text]').attr('value', '');
             this.showResults();
-            this.trace[0] = this.testSubject + ' — ' + this.testSubjectMachine + ', ' + this.lapTime() + ' seconds, ' + this.clicks + ' clicks';
+            this.trace.push({result:this.testSubject + ' — ' + this.testSubjectMachine + ', ' + this.lapTime() + ' seconds, ' + this.clicks + ' clicks'})
             this.finalReport = this.trace;
         },
         lapTime: function() {
-            return  Math.round( ((this.trace[this.clicks].timestamp - this.trace[1].timestamp ) / 1000)*100 )/100;
+            return Math.round( ((this.trace[this.trace.length - 2].timestamp - this.trace[0].timestamp  ) / 1000)*100 )/100;
         },
         beginTestAlert: function() {throwMessage('<strong>Note!</strong> You entered a test zone', 'success', true);},
         showResults: function() {throwMessage('<strong>Test completed!</strong> It took you ' + this.lapTime() + ' seconds and ' + this.clicks + ' clicks to complete this task', 'success', false);}
@@ -45,19 +44,13 @@
             ($(ui.endTrigger).length === 1) ? ui.end() : false;
             if(ui.testInProgress === true) {
                 ui.clicks += 1;
-                ui.trace[ui.clicks] = {
-                    'timestamp': new Date().getTime(),
-                    'coordinates': 'false'
-                };                
+                ui.trace.push({timestamp: new Date().getTime(), coordinates: e.pageX + ',' + e.pageY});
             }
         });
     } else {
         $('#sidecar').bind('click', '*', function(e){
             ui.clicks += 1;
-            ui.trace[ui.clicks] = {
-                'timestamp': new Date().getTime(),
-                'coordinates': e.pageX + ',' + e.pageY
-            };
+            ui.trace.push({timestamp: new Date().getTime(), coordinates: e.pageX + ',' + e.pageY});
         });
         $('.uitest-remote-control .btn:not(.disabled)').live('click', function(e){
             if($(this).hasClass('start') === true) {
@@ -87,5 +80,4 @@
             ui.testAuto = false;
         }
     });
-
 })();
